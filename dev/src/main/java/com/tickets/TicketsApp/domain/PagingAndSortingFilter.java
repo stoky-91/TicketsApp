@@ -1,5 +1,8 @@
 package com.tickets.TicketsApp.domain;
 
+import lombok.Data;
+
+@Data
 public class PagingAndSortingFilter {
     private String orderBy;
     private boolean ascending;
@@ -21,38 +24,4 @@ public class PagingAndSortingFilter {
         this.count = count;
         this.page = page;
     }
-
-    // Getters and Setters
-    public String getOrderBy() {
-        return orderBy;
-    }
-
-    public void setOrderBy(String orderBy) {
-        this.orderBy = orderBy;
-    }
-
-    public boolean isAscending() {
-        return ascending;
-    }
-
-    public void setAscending(boolean ascending) {
-        this.ascending = ascending;
-    }
-
-    public long getCount() {
-        return count;
-    }
-
-    public void setCount(long count) {
-        this.count = count;
-    }
-
-    public long getPage() {
-        return page;
-    }
-
-    public void setPage(long page) {
-        this.page = page;
-    }
-
 }
