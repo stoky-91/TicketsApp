@@ -1,26 +1,35 @@
 package com.tickets.TicketsApp.domain.ticket;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Data
 @Entity
 @Table(name = "tickets")
 public class TicketDO {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column
+    @NotNull(message = "Field cannot be null")
     private String event;
 
-    @Column(nullable = false)
+    @Column
+    //@NotNull(message = "Field cannot be null")
     private String venue;
 
-    @Column(nullable = false)
+    @Column
+    //@NotNull(message = "Field cannot be null")
     private LocalDate dateEvent;
 
     @Column
@@ -29,45 +38,48 @@ public class TicketDO {
     @Column
     private LocalDate dateSale;
 
+    @Column(nullable = false)
+    private BigDecimal purchasePrice = BigDecimal.ZERO;
+
+    @Column(nullable = false)
+    private BigDecimal salePrice = BigDecimal.ZERO;
+
     @Column
-    private int soldPerDays;
+    //@NotNull(message = "Field cannot be null")
+    private BigDecimal profit = BigDecimal.ZERO;
 
-    @Column(nullable = false)
-    private BigDecimal purchasePrice;
+    @Column
+    private TypeOfTicketEnum typeOfTicket;
 
-    @Column(nullable = false)
-    private BigDecimal salePrice;
-
-    @Column(nullable = false)
-    private BigDecimal profit;
-
-
-    private TypeOfTicketEnum TypeOfTicket;
-
-
+    @Column
     private PlatformSaleEnum platformSale;
 
     @Column
     private LocalDate sendTo;
 
     @Column
-    private String section;
+    private int numberOfTickets;
 
     @Column
+    private BigDecimal percentageProfit;
+
+    @Column
+    //@NotNull(message = "Field cannot be null")
+    private Boolean completed = false;
+
+    @Column
+    private String email;
+
+    private int soldPerDays;
+
+    @Column
+    private String section;
+
+    @Column(name = "`row`")
     private String row;
 
     @Column
     private String seat;
 
-    private Boolean paid;
-
-    @Column
-    private int numberOfTickets;
-
-    @Column(nullable = false)
-    private BigDecimal percentageProfit;
-
-    @Column
-    private String email;
 
 }
