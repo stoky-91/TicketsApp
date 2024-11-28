@@ -1,8 +1,5 @@
 package com.tickets.TicketsApp.domain.ticket.service;
 
-import com.tickets.TicketsApp.domain.bill.BillDO;
-import com.tickets.TicketsApp.domain.bill.BillDTO;
-import com.tickets.TicketsApp.domain.bill.BillFilterDTO;
 import com.tickets.TicketsApp.domain.bill.dao.BillRepository;
 import com.tickets.TicketsApp.domain.code.dao.CodeRepository;
 import com.tickets.TicketsApp.domain.ticket.*;

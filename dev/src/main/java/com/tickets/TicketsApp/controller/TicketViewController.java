@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/tickets")
+@RequestMapping("/ticket")
 public class TicketViewController {
 
     private final TicketService ticketService;
@@ -36,7 +36,7 @@ public class TicketViewController {
         model.addAttribute("tickets", tickets);
         model.addAttribute("summary", new TicketSummaryDTO(totalPrice));
         model.addAttribute("filter", new TicketFilterDTO());
-        return "tickets"; // Název Thymeleaf šablony (tickets.html)
+        return "ticket"; // Název Thymeleaf šablony (ticket.html)
     }
 
     // Zpracování filtru a zobrazení filtrovaných dat
@@ -50,6 +50,6 @@ public class TicketViewController {
         model.addAttribute("tickets", filteredTickets);
         model.addAttribute("summary", new TicketSummaryDTO(totalPrice));
         model.addAttribute("filter", filter);
-        return "tickets"; // Název Thymeleaf šablony (tickets.html)
+        return "ticket"; // Název Thymeleaf šablony (ticket.html)
     }
 }

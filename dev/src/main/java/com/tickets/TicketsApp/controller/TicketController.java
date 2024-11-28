@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/ticket")
+@RequestMapping(value = "/tickets")
 public class TicketController {
 
     private final TicketService ticketService;

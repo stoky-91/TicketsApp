@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/codes")
+@RequestMapping("/code")
 public class CodeViewController {
 
     private final CodeService codeService;
@@ -50,6 +50,6 @@ public class CodeViewController {
         model.addAttribute("codes", filteredCodes);
         model.addAttribute("summary", new CodeSummaryDTO(totalPrice));
         model.addAttribute("filter", filter);
-        return "codes"; // Název Thymeleaf šablony (code.html)
+        return "code"; // Název Thymeleaf šablony (code.html)
     }
 }
