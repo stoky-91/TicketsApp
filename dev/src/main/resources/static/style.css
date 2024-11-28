@@ -1,0 +1,117 @@
+/* Globální nastavení pro celé tělo stránky */
+body {
+    font-family: Arial, sans-serif;
+    background-color: white; /* Bílé pozadí stránky */
+    color: #333; /* Tmavý text */
+    margin: 0;
+    padding: 20px;
+}
+
+/* Styl pro formulář */
+form {
+    margin-bottom: 20px;
+}
+
+/* Styl pro všechny vstupní pole (text, datum, atd.) */
+input[type="text"], input[type="date"], input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 2px solid #007bff; /* Modrý rámeček */
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Styl pro tlačítka */
+button {
+    background-color: #007bff; /* Modré tlačítko */
+    color: white; /* Bílý text */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3; /* Tmavší modrá po najetí myší */
+}
+
+/* Styl pro tabulku */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #007bff; /* Modrý rámeček kolem tabulky */
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #007bff; /* Modré záhlaví tabulky */
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Šedý pruhovaný efekt pro sudé řádky */
+}
+
+/* Styl pro sumární sekci */
+.summary {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #007bff; /* Modrý rámeček kolem souhrnu */
+    border-radius: 5px;
+}
+
+.summary h2 {
+    margin-top: 0;
+}
+
+body {
+    display: flex;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.sidebar ul li a:hover {
+    color: #007bff;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+

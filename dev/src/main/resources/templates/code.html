@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>Code Table</title>
+    <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+
+<!-- Postranní panel -->
+<div th:replace="~{sidebar :: menu}"></div>
+
+<h1>List of Codes</h1>
+
+<form action="/codes/filter" method="get">
+
+    <!-- Filtr podle data -->
+    <label for="dateFrom">Date from:</label>
+    <input type="date" id="dateFrom" name="dateFrom">
+
+    <label for="dateTo">Date to:</label>
+    <input type="date" id="dateTo" name="dateTo">
+
+    <!-- Filtr podle události -->
+    <label for="event">Event:</label>
+    <input type="text" id="event" name="event">
+
+    <!-- Filtr podle ceny -->
+    <label for="price">Cena:</label>
+    <input type="text" id="price" name="price">
+
+    <!-- Filtr podle provider -->
+    <label for="provider">Provider:</label>
+    <input type="text" id="provider" name="provider">
+
+    <button type="submit">Filtrovat</button>
+</form>
+
+<!-- Tabulka -->
+<table border="1">
+    <thead>
+    <tr>
+        <th>Event</th>
+        <th>Purchase date</th>
+        <th>Price</th>
+        <th>Count</th>
+        <th>Number of applied</th>
+        <th>Provider</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="code : ${codes}">
+        <td th:text="${code.event}"></td>
+        <td th:text="${code.purchaseDate}"></td>
+        <td th:text="${code.price}"></td>
+        <td th:text="${code.count}"></td>
+        <td th:text="${code.numberOfApplied}"></td>
+        <td th:text="${code.provider}"></td>
+        <td th:text="${code.description}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Souhrn -->
+<h2>Summary</h2>
+<p>Total Price: <span th:text="${summary.totalPrice}"></span></p>
+
+</body>
+</html>

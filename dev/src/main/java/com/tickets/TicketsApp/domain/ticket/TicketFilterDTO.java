@@ -2,9 +2,11 @@ package com.tickets.TicketsApp.domain.ticket;
 
 
 import com.tickets.TicketsApp.domain.PagingAndSortingFilter;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
+@EqualsAndHashCode(callSuper = true)
 public class TicketFilterDTO extends PagingAndSortingFilter {
 
     public enum DateType {
@@ -24,74 +26,76 @@ public class TicketFilterDTO extends PagingAndSortingFilter {
         OTHER
     }
 
+    private Long id;
     private LocalDate dateFrom;
     private LocalDate dateTo;
-    private Integer eventId;
-    private Integer venueId;
-    private DateType dateTypeId;
-    private PlatformSale platformSaleId;
+    private String event;
+    private String venue;
+    private DateType dateType;
+    private PlatformSale platformSale;
     private Boolean completed;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public LocalDate getDateFrom() {
         return dateFrom;
     }
 
-    public TicketFilterDTO setDateFrom(LocalDate dateFrom) {
+    public void setDateFrom(LocalDate dateFrom) {
         this.dateFrom = dateFrom;
-        return this;
     }
 
     public LocalDate getDateTo() {
         return dateTo;
     }
 
-    public TicketFilterDTO setDateTo(LocalDate dateTo) {
+    public void setDateTo(LocalDate dateTo) {
         this.dateTo = dateTo;
-        return this;
     }
 
-    public Integer getEventId() {
-        return eventId;
+    public String getEvent() {
+        return event;
     }
 
-    public TicketFilterDTO setEventId(Integer eventId) {
-        this.eventId = eventId;
-        return this;
+    public void setEvent(String event) {
+        this.event = event;
     }
 
-    public Integer getVenueId() {
-        return venueId;
+    public String getVenue() {
+        return venue;
     }
 
-    public TicketFilterDTO setVenueId(Integer venueId) {
-        this.venueId = venueId;
-        return this;
+    public void setVenue(String venue) {
+        this.venue = venue;
     }
 
-    public DateType getDateTypeId() {
-        return dateTypeId;
+    public DateType getDateType() {
+        return dateType;
     }
 
-    public TicketFilterDTO setDateTypeId(DateType dateTypeId) {
-        this.dateTypeId = dateTypeId;
-        return this;
+    public void setDateType(DateType dateType) {
+        this.dateType = dateType;
     }
 
-    public PlatformSale getPlatformSaleId() {
-        return platformSaleId;
+    public PlatformSale getPlatformSale() {
+        return platformSale;
     }
 
-    public TicketFilterDTO setPlatformSaleId(PlatformSale platformSaleId) {
-        this.platformSaleId = platformSaleId;
-        return this;
+    public void setPlatformSale(PlatformSale platformSale) {
+        this.platformSale = platformSale;
     }
 
     public Boolean getCompleted() {
         return completed;
     }
 
-    public TicketFilterDTO setCompleted(Boolean completed) {
+    public void setCompleted(Boolean completed) {
         this.completed = completed;
-        return this;
     }
 }

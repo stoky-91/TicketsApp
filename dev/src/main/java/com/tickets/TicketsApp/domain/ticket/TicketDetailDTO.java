@@ -1,6 +1,9 @@
 package com.tickets.TicketsApp.domain.ticket;
 
-public class TicketDetailDTO extends TicketsDTO{
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode(callSuper=false)
+public class TicketDetailDTO extends TicketMainViewDTO {
 
     private int soldPerDays;
     private String section;
@@ -11,38 +14,31 @@ public class TicketDetailDTO extends TicketsDTO{
         return soldPerDays;
     }
 
-    public TicketDetailDTO setSoldPerDays(int soldPerDays) {
+    public void setSoldPerDays(int soldPerDays) {
         this.soldPerDays = soldPerDays;
-        return this;
     }
 
     public String getSection() {
         return section;
     }
 
-    public TicketDetailDTO setSection(String section) {
+    public void setSection(String section) {
         this.section = section;
-        return this;
     }
 
     public String getRow() {
         return row;
     }
 
-    public TicketDetailDTO setRow(String row) {
+    public void setRow(String row) {
         this.row = row;
-        return this;
     }
 
     public String getSeat() {
         return seat;
     }
 
-    public TicketDetailDTO setSeat(String seat) {
+    public void setSeat(String seat) {
         this.seat = seat;
-        return this;
     }
-
-
-
 }
