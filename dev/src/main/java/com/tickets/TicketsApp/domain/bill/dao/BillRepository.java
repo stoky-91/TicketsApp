@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 
 @Repository
-public interface BillRepository  extends JpaRepository<BillDO, Long>, BillRepositoryCustom {
+public interface BillRepository extends JpaRepository<BillDO, Long>, BillRepositoryCustom {
 
     @Query("SELECT COALESCE(SUM(b.price), 0) FROM BillDO b")
     BigDecimal sumAllPrices();

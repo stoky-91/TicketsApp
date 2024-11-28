@@ -61,6 +61,7 @@ public class BillService {
         List<BillDO> billDOList = billRepository.findAll().stream()
                 .filter(bill -> filter.getDateFrom() == null || !bill.getDate().isBefore(filter.getDateFrom()))
                 .filter(bill -> filter.getDateTo() == null || !bill.getDate().isAfter(filter.getDateTo()))
+                .filter(bill -> filter.getPrice() == null || bill.getPrice().equals(filter.getPrice()))
                 .filter(bill -> filter.getDescription() == null || bill.getDescription().contains(filter.getDescription()))
                 .toList();
 

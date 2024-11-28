@@ -1,5 +1,8 @@
 package com.tickets.TicketsApp.domain.ticket.service;
 
+import com.tickets.TicketsApp.domain.bill.BillDO;
+import com.tickets.TicketsApp.domain.bill.BillDTO;
+import com.tickets.TicketsApp.domain.bill.BillFilterDTO;
 import com.tickets.TicketsApp.domain.bill.dao.BillRepository;
 import com.tickets.TicketsApp.domain.code.dao.CodeRepository;
 import com.tickets.TicketsApp.domain.ticket.*;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,7 +49,7 @@ public class TicketService {
     }
 
     @Transactional
-    public void deleteTicket(Long id){
+    public void deleteTicket(Long id) {
         ticketRepository.deleteById(id);
     }
 
@@ -75,7 +79,7 @@ public class TicketService {
         }
     }
 
-    public List<TicketMainViewDTO> getAllTickets(){
+    public List<TicketMainViewDTO> getAllTickets() {
         List<TicketDO> ticketDOList = ticketRepository.findAll();
         return ticketDOList.stream()
                 .map(ticketDetailMapper::doToDto) // mapování z BillDO na BillDTO
@@ -103,7 +107,7 @@ public class TicketService {
             }
         }
 
-        TicketSummaryDTO summary = new TicketSummaryDTO();
+        TicketSummaryDTO summary = new TicketSummaryDTO(totalPrice);
         summary.setTotalNumberOfTickets(incompleteTicketsCount);
         summary.setTotalPurchasePrice(totalPrice);
         summary.setTotalProfit(totalProfit);
@@ -133,21 +137,99 @@ public class TicketService {
     public BigDecimal calculateProfit(TicketDetailDTO ticketDetailDTO) {
         BigDecimal result = ticketDetailDTO.getSalePrice() != null ? ticketDetailDTO.getSalePrice().subtract(ticketDetailDTO.getPurchasePrice()) : BigDecimal.ZERO.subtract(ticketDetailDTO.getPurchasePrice());
         return result;
-   }
+    }
 
-    public static BigDecimal calculatePercentageProfit(TicketDetailDTO ticketDetailDTO){
+    public static BigDecimal calculatePercentageProfit(TicketDetailDTO ticketDetailDTO) {
         BigDecimal salePrice = ticketDetailDTO.getSalePrice() != null ? ticketDetailDTO.getSalePrice() : BigDecimal.ZERO;
         BigDecimal calculateRatio = salePrice.divide(ticketDetailDTO.getPurchasePrice(), 2, RoundingMode.HALF_UP);
-       BigDecimal multipliedRatio = calculateRatio.multiply(new BigDecimal("100"));
+        BigDecimal multipliedRatio = calculateRatio.multiply(new BigDecimal("100"));
         return multipliedRatio.subtract(new BigDecimal("100"));
     }
 
     private TicketMainViewDTO convertToView(TicketDO ticketDO) {
-       return ticketDetailMapper.doToMainViewDto(ticketDO);
+        return ticketDetailMapper.doToMainViewDto(ticketDO);
     }
 
     private TicketDetailDTO convertToTicketDetailDTO(TicketDO ticket) {
         return ticketDetailMapper.doToDto(ticket);
     }
 
-}
+    public List<TicketMainViewDTO> filterTickets(TicketFilterDTO filter) {
+        // Získání seznamu všech záznamů TicketDO a filtrování podle kritérií v TicketFilterDTO
+        List<TicketDO> ticketDOList = ticketRepository.findAll().stream()
+                // Filtrování podle data (datum zůstává stejné jako v původním příkladu)
+                .filter(ticket -> filter.getDateFrom() == null || !ticket.getDateEvent().isBefore(filter.getDateFrom()))
+                .filter(ticket -> filter.getDateTo() == null || !ticket.getDateEvent().isAfter(filter.getDateTo()))
+                // Filtrování podle platformy prodeje
+                .filter(ticket -> filter.getPlatformSale() == null || ticket.getPlatformSale().equals(convertPlatformSale(filter.getPlatformSale())))
+                // Filtrování podle stavu (dokončeno/ne)
+                .filter(ticket -> filter.getCompleted() == null || filter.getCompleted().equals(ticket.getCompleted()))
+                // Filtrování podle typu data (Event, Purchase, Sale, SendTo)
+                .filter(ticket -> filter.getDateType() == null || filterByDateType(ticket, filter.getDateType(), filter.getDateFrom(), filter.getDateTo()))
+                // Filtrování podle názvu události
+                .filter(ticket -> filter.getEvent() == null || ticket.getEvent().toLowerCase().contains(filter.getEvent().toLowerCase()))
+                // Filtrování podle místa konání
+                .filter(ticket -> filter.getVenue() == null || ticket.getVenue().toLowerCase().contains(filter.getVenue().toLowerCase()))
+                .toList();
+
+        // Mapování na DTO
+        return ticketDOList.stream()
+                .map(ticketDetailMapper::doToDto)
+                .collect(Collectors.toList());
+    }
+
+    // Pomocná metoda pro převod mezi PlatformSale a PlatformSaleEnum
+    private PlatformSaleEnum convertPlatformSale(TicketFilterDTO.PlatformSale platformSale) {
+        if (platformSale == null) {
+            return null;  // Pokud není platforma specifikována, vrátí null
+        }
+
+        switch (platformSale) {
+            case VIAGOGO:
+                return PlatformSaleEnum.VIAGOGO;
+            case TICKETMASTER:
+                return PlatformSaleEnum.TICKETMASTER;
+            case TICKETSWAP:
+                return PlatformSaleEnum.TICKETSWAP;
+            case LYSTED:
+                return PlatformSaleEnum.LYSTED;
+            case GIGSBERG:
+                return PlatformSaleEnum.GIGSBERG;
+            case BAZOS:
+                return PlatformSaleEnum.BAZOS;
+            case OTHER:
+                return PlatformSaleEnum.OTHER;
+            default:
+                return null;  // Pokud není platforma v seznamu, vrátí null
+        }
+    }
+
+    // Pomocná metoda pro filtrování podle typu data
+    private boolean filterByDateType(TicketDO ticket, TicketFilterDTO.DateType dateType, LocalDate dateFrom, LocalDate dateTo) {
+        LocalDate dateToCheck = null;
+
+        switch (dateType) {
+            case EVENT:
+                dateToCheck = ticket.getDateEvent();
+                break;
+            case PURCHASE:
+                dateToCheck = ticket.getDatePurchase();
+                break;
+            case SALE:
+                dateToCheck = ticket.getDateSale();
+                break;
+            case SENDTO:
+                dateToCheck = ticket.getSendTo();
+                break;
+        }
+        // Pokud je nastavena hodnota pro dateFrom, zkontrolujeme, zda je datum větší nebo rovno
+        boolean isAfterFrom = (dateFrom == null || !dateToCheck.isBefore(dateFrom));
+        // Pokud je nastavena hodnota pro dateTo, zkontrolujeme, zda je datum menší nebo rovno
+        boolean isBeforeTo = (dateTo == null || !dateToCheck.isAfter(dateTo));
+
+        return isAfterFrom && isBeforeTo;
+    }
+
+
+    }
+

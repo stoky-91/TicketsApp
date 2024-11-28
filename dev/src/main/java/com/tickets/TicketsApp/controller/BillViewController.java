@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/bills")
+@RequestMapping("/bill")
 public class BillViewController {
 
     private final BillService billService;

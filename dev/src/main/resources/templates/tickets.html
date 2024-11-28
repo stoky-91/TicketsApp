@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tickets Table</title>
+    <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+
+<!-- Postranní panel -->
+<div th:replace="~{sidebar :: menu}"></div>
+
+<h1>List of Tickets</h1>
+
+<form action="/ticket/filter" method="get">
+
+    <!-- Filtr podle data -->
+    <label for="dateFrom">Date from:</label>
+    <input type="date" id="dateFrom" name="dateFrom">
+
+    <label for="dateTo">Date to:</label>
+    <input type="date" id="dateTo" name="dateTo">
+
+    <!-- Filtr podle události -->
+    <label for="event">Event:</label>
+    <input type="text" id="event" name="event">
+
+    <!-- Filtr podle místa -->
+    <label for="venue">Venue:</label>
+    <input type="text" id="venue" name="venue">
+
+    <!-- Filtr podle typu data -->
+    <label for="dateType">Date Type:</label>
+    <select id="dateType" name="dateType">
+        <option value="EVENT">Event</option>
+        <option value="PURCHASE">Purchase</option>
+        <option value="SALE">Sale</option>
+        <option value="SENDTO">Send To</option>
+    </select>
+
+    <!-- Filtr podle platformy -->
+    <label for="platformSale">Platform Sale:</label>
+    <select id="platformSale" name="platformSale">
+        <option value="VIAGOGO">Viagogo</option>
+        <option value="TICKETMASTER">Ticketmaster</option>
+        <option value="TICKETSWAP">Ticketswap</option>
+        <option value="LYSTED">Lysted</option>
+        <option value="GIGSBERG">Gigsberg</option>
+        <option value="BAZOS">Bazos</option>
+        <option value="OTHER">Other</option>
+    </select>
+
+    <!-- Filtr podle stavu -->
+    <label for="completed">Completed:</label>
+    <select id="completed" name="completed">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+    </select>
+
+    <button type="submit">Filter</button>
+</form>
+
+<!-- Tabulka -->
+<table border="1">
+    <thead>
+    <tr>
+        <th>Event</th>
+        <th>Venue</th>
+        <th>Date Event</th>
+        <th>Date Purchase</th>
+        <th>Date Sale</th>
+        <th>Purchase Price</th>
+        <th>Sale Price</th>
+        <th>Profit</th>
+        <th>Type of Ticket</th>
+        <th>Platform Sale</th>
+        <th>Send To</th>
+        <th>Number of Tickets</th>
+        <th>Percentage Profit</th>
+        <th>Completed</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ticket : ${tickets}">
+        <td th:text="${ticket.event}"></td>
+        <td th:text="${ticket.venue}"></td>
+        <td th:text="${ticket.dateEvent}"></td>
+        <td th:text="${ticket.datePurchase}"></td>
+        <td th:text="${ticket.dateSale}"></td>
+        <td th:text="${ticket.purchasePrice}"></td>
+        <td th:text="${ticket.salePrice}"></td>
+        <td th:text="${ticket.profit}"></td>
+        <td th:text="${ticket.typeOfTicket}"></td>
+        <td th:text="${ticket.platformSale}"></td>
+        <td th:text="${ticket.sendTo}"></td>
+        <td th:text="${ticket.numberOfTickets}"></td>
+        <td th:text="${ticket.percentageProfit}"></td>
+        <td th:text="${ticket.completed}"></td>
+        <td th:text="${ticket.email}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Souhrn -->
+<h2>Summary</h2>
+<p>Total Price: <span th:text="${summary.totalSalePrice}"></span></p>
+
+</body>
+</html>

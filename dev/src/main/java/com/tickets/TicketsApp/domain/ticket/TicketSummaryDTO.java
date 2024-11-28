@@ -13,6 +13,10 @@ public class TicketSummaryDTO {
     private BigDecimal percentageProfit;
     private BigDecimal actualPurchasePrice;
 
+    public TicketSummaryDTO(BigDecimal totalSalePrice) {
+        this.totalSalePrice = totalSalePrice;
+    }
+
     public BigDecimal getTotalPurchasePrice() {
         return totalPurchasePrice;
     }
